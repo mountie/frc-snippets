@@ -12,3 +12,20 @@ add_definitions(${PCL_DEFINITIONS})
 
 add_executable (pcd_write pcd_write.cpp)
 target_link_libraries (pcd_write ${PCL_LIBRARIES})
+
+add_executable (grabber grabber.cpp)
+target_link_libraries (grabber ${PCL_LIBRARIES})
+
+add_executable (benchmark benchmark.cpp)
+target_link_libraries (benchmark ${PCL_LIBRARIES})
+
+add_executable (viewer viewer.cpp)
+target_link_libraries (viewer ${PCL_LIBRARIES})
+target_link_libraries (viewer -lfreenect)
+target_link_libraries (viewer -lfreenect_sync)
+
+add_executable (openni openni.cpp)
+target_link_libraries (openni ${PCL_LIBRARIES})
+
+add_executable (showpcd showpcd.cpp)
+target_link_libraries (showpcd ${PCL_LIBRARIES})

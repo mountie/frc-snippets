@@ -6,6 +6,7 @@
 
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/openni_grabber.h>
+#include <pcl/io/openni2_grabber.h>
 
 
 typedef pcl::PointXYZ PT;
@@ -40,7 +41,7 @@ public:
   void run ()
   {
     // create a new grabber for OpenNI devices
-    pcl::OpenNIGrabber* interface = new pcl::OpenNIGrabber();
+    auto* interface = new pcl::OpenNIGrabber();
 
     std::cout << "OpenNI device " << interface->getDevice()->getConnectionString() << std::endl;
 
