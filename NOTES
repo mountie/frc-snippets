@@ -1,0 +1,53 @@
+Blog information:
+        http://www.get-edi.io/Cross-Compiling-for-Raspbian/
+        http://sentryytech.blogspot.ca/2013/02/faster-compiling-on-emulated-raspberry.html
+
+For compiling in debian stretch/jessie:
+        sudo apt install git cmake libusb-1.0-0-dev libvtk6-qt-dev libflann-dev libboost-all-dev libeigen3-dev python-vtk6 libopenni-dev libopenni2-dev python-vtk6 libproj-dev libfreenect-dev
+        sudo ln -s vtk6 /usr/bin/vtk
+
+        git clone ... && checkout -b rel-1.8 plc-1.8.1
+
+        mkdir build && cd build
+        cmake -DCMAKE_INSTALL_PREFIX=/opt/pointclouds ../pcl
+        make -j48
+
+        sudo mkdir /opt/pointclouds
+        sudo chmod a+rwt /opt/pointclouds
+        fakeroot -s fakeroot.db make install
+        fakeroot -i fakeroot.db tar -zcvf pcl.tar.gz /opt/pointclouds
+
+	scp pcl.tar.gz user@remote:
+	ssh user@remote -t sudo tar -C / -zxvf pcl.tar.gz
+
+==============================================================================
+
+Compile apps:
+        cmake .
+        make viewer
+
+If you want to use distcc to compile on a larger box, make sure you
+specify the compiler and target (since the bigger box is likely x86_64,
+not armh, or i686)
+
+        export CXX=distcc clang++-4.0 -target i686-pc-linux"
+        export CXX="distcc clang++-4.0 -target i686-pc-linux"
+        export DISTCC_HOSTS=marvin                              # Or whatever
+        cmake .
+        make viewer
+
+
+==============================================================================
+GCC make:
+        83.10user 5.99system 1:29.68elapsed 99%CPU (0text+0data 1413676max)
+        0inputs+336160outputs (0major+2641756minor)pagefaults 0swaps
+
+        82.58user 6.11system 1:29.93elapsed 98%CPU (0text+0data 1413672max)
+        0inputs+334936outputs (0major+2641553minor)pagefaults 0swaps
+
+CLANG make:
+        58.62user 4.14system 1:03.12elapsed 99%CPU (0text+0data 598460max)
+        0inputs+66584outputs (0major+1406841minor)pagefaults 0swaps
+
+        58.20user 4.06system 1:02.66elapsed 99%CPU (0text+0data 598924max)
+        0inputs+65360outputs (0major+1406956minor)pagefaults 0swaps
