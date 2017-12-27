@@ -4,7 +4,7 @@ The whole papps thing is Aidan's fiddle space, cloned from his github at https:/
 # Things I needed to install (debian 8):
 (note: this list may differ a bit based on what distro of linux you're using, and what you already have installed. If you're missing something, you'll know when you go to do the cmake step.)
 
-apt-get install cmake libeigen3-dev libflann-dev freeglut3-dev libboost-all-dev
+apt-get install cmake libeigen3-dev libflann1.7-dev freeglut3-dev libboost-all-dev
 
 # Things I installed while fumbling around (may or may not have been needed):
 apt-get install
@@ -75,3 +75,12 @@ This is part of Boost, so the theory is that I don't have libboost-dev installed
     set(Boost_USE_STATIC_LIBS ON)
     FIND_PACKAGE(Boost)
     find_package(PCL 1.2 REQUIRED)
+
+
+## Incompatible libflann-dev version
+
+**SOLUTION**: `apt-get install libflann1.7-dev` instead of the default 1.6 that comes with `libflann-dev`
+
+The default debian `apt-get install libflann-dev` gave me FLANN 1.6. When buliding PCL, I got a whole pile of errors like this:
+
+    /home/user/gitrepos/pcl/kdtree/include/pcl/kdtree/impl/kdtree_flann.hpp:186:12: error: ‘struct flann::SearchParams’ has no member named ‘max_neighbors’
